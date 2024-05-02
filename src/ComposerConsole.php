@@ -30,15 +30,16 @@ class ComposerConsole extends Client
      */
     protected function download($remoteEditionData)
     {
-        $editionId = $remoteEditionData['id'];
+        $editionId = $remoteEditionData['edition_id'];
         $progressBar = new ProgressBar((new ConsoleOutput()), 100);
         $progressBar->setFormat("  - Downloading <fg=green>$editionId</>: [%bar%] %percent:3s%%");
         $progressBar->setRedrawFrequency(1);
         $progressBar->start();
         $progressBarFinish = false;
 
-        $ch = curl_init(trim($this->_baseUrlApi,'/').'/'.'download'.'?'. http_build_query(array(
-            'request_id' => $remoteEditionData['request_id'],
+        $ch = curl_init(trim($this->_baseUrlApi, '/') . '/' . 'geoip/databases/' . $editionId . '/download' . '?' . http_build_query(array(
+            'date' => date_create($remoteEditionData['date'])->format('Ymd'),
+            'suffix' => 'tar.gz'
         )));
         $fh = fopen($this->getArchiveFile($remoteEditionData), 'wb');
         curl_setopt_array($ch, array(
@@ -47,23 +48,14 @@ class ComposerConsole extends Client
             CURLOPT_FILE => $fh,
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
-                'X-Api-Key: '.$this->geodbase_update_key,
             ),
+            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+            CURLOPT_USERPWD => sprintf("%s:%s", $this->account_id, $this->license_key),
             CURLOPT_NOPROGRESS => false,
             CURLOPT_PROGRESSFUNCTION => function ($resource, $download_size = 0, $downloaded = 0, $upload_size = 0, $uploaded = 0, $uploaded2 = 0) use ($progressBar, &$progressBarFinish, $remoteEditionData) {
-                /**
-                 * $resource parameter was added in version 5.5.0 breaking backwards compatibility;
-                 * if we are using PHP version lower than 5.5.0, we need to shift the arguments
-                 * @see http://php.net/manual/en/function.curl-setopt.php#refsect1-function.curl-setopt-changelog
-                 */
-                if (version_compare(PHP_VERSION, '5.5.0') < 0)
-                    $downloaded = $download_size;
-
-                $download_size = $remoteEditionData['length'];
-
                 if ($download_size && !$progressBarFinish)
                     if ($downloaded < $download_size)
-                        $progressBar->setProgress(round(($downloaded / $download_size) * 100,0,PHP_ROUND_HALF_DOWN));
+                        $progressBar->setProgress(round(($downloaded / $download_size) * 100, 0, PHP_ROUND_HALF_DOWN));
                     else {
                         $progressBar->finish();
                         $progressBarFinish = true;
@@ -75,10 +67,10 @@ class ComposerConsole extends Client
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
         fclose($fh);
-        if ($response === false || $httpCode !== 200){
-            if(is_file($this->getArchiveFile($remoteEditionData)))
+        if ($response === false || $httpCode !== 200) {
+            if (is_file($this->getArchiveFile($remoteEditionData)))
                 unlink($this->getArchiveFile($remoteEditionData));
-            $this->_errorUpdateEditions[$remoteEditionData['id']] = "$editionId: download error. Remote server response code \"$httpCode\".";
+            $this->_errorUpdateEditions[$remoteEditionData['edition_id']] = "$editionId: download error. Remote server response code \"$httpCode\".";
             echo PHP_EOL;
         }
     }

@@ -1,5 +1,5 @@
 {
-    "name": "tronovav/geoip2-update",
+    "name": "danielsreichenbach/geoip2-update",
     "description": "Update GeoIP2/GeoLite2 databases from your script, program or via composer.",
     "keywords": [
         "geoip",
@@ -14,22 +14,31 @@
         {
             "name": "Andrey Tronov",
             "email": "newtronov@gmail.com"
+        },
+        {
+            "name": "Daniel S. Reichenbach",
+            "email": "daniel@kogito.network"
         }
     ],
     "support": {
         "email": "newtronov@gmail.com"
     },
     "require": {
-        "php": ">=5.3",
+        "php": ">=8.0",
         "ext-curl": "*",
-        "ext-json": "*"
+        "ext-json": "*",
+        "composer-plugin-api": "^2.1"
     },
     "suggest": {
         "ext-zip": "Required for updating the CSV databases."
     },
     "autoload": {
         "psr-4": {
-            "tronovav\\GeoIP2Update\\": "src/"
+            "danielsreichenbach\\GeoIP2Update\\": "src/"
         }
+    },
+    "require-dev": {
+        "composer/composer": "^2.1",
+        "symfony/console": "^7.0"
     }
 }
