@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of tronovav\GeoIP2Update.
+ * This file is part of danielsreichenbach\GeoIP2Update.
  *
  * (c) Andrey Tronov
  *
@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace tronovav\GeoIP2Update;
+namespace danielsreichenbach\GeoIP2Update;
 
 /**
  * These libraries are included in the Composer assembly
@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
  * Class ComposerClient
- * @package tronovav\GeoIP2Update
+ * @package danielsreichenbach\GeoIP2Update
  */
 class ComposerConsole extends Client
 {
