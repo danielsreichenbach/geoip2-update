@@ -247,8 +247,9 @@ class Client
      */
     protected function download($remoteEditionData)
     {
-        $ch = curl_init(trim($this->_baseUrlApi, '/') . '/' . 'download' . '?' . http_build_query(array(
-            'request_id' => $remoteEditionData['request_id'],
+        $ch = curl_init(trim($this->_baseUrlApi, '/') . '/' . 'geoip/databases/' . $remoteEditionData['edition_id'] . '/download' . '?' . http_build_query(array(
+            'date' => date_create($remoteEditionData['date'])->format('Ymd'),
+            'suffix' => 'tar.gz'
         )));
         $fh = fopen($this->getArchiveFile($remoteEditionData), 'wb');
         curl_setopt_array($ch, array(
