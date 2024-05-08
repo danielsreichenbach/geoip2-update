@@ -24,13 +24,10 @@
         "email": "newtronov@gmail.com"
     },
     "require": {
-        "php": ">=8.0",
+        "php": "^7.2.5 || ^8.0",
         "ext-curl": "*",
         "ext-json": "*",
-        "composer-plugin-api": "^2.1"
-    },
-    "suggest": {
-        "ext-zip": "Required for updating the CSV databases."
+        "composer-plugin-api": "^2"
     },
     "autoload": {
         "psr-4": {
@@ -38,7 +35,7 @@
         }
     },
     "require-dev": {
-        "composer/composer": "^2.1",
-        "symfony/console": "^7.0"
+        "composer/composer": "^2",
+        "symfony/console": "^5.4 || ^6.0 || ^7.0"
     }
 }
