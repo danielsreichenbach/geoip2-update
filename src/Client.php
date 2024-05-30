@@ -106,7 +106,7 @@ class Client
                 $confParams = array();
                 foreach (file($params['geoipConfFile']) as $line) {
                     $confString = trim($line);
-                    if (preg_match('/^\s*(?P<name>LicenseKey|EditionIDs)\s+(?P<value>([\w-]+\s*)+)$/', $confString, $matches)) {
+                    if (preg_match('/^\s*(?P<name>LicenseKey|EditionIDs|AccountID)\s+(?P<value>([\w-]+\s*)+)$/', $confString, $matches)) {
                         $confParams[$matches['name']] = $matches['name'] === 'EditionIDs'
                             ? array_values(array_filter(explode(' ', $matches['value']), function ($val) {
                                 return trim($val);
@@ -114,7 +114,7 @@ class Client
                             : trim($matches['value']);
                     }
                 }
-                $this->account_id = !empty($confParams['AccountId']) ? $confParams['AccountId'] : $this->account_id;
+                $this->account_id = !empty($confParams['AccountID']) ? $confParams['AccountID'] : $this->account_id;
                 $this->license_key = !empty($confParams['LicenseKey']) ? $confParams['LicenseKey'] : $this->license_key;
                 $this->editions = !empty($confParams['EditionIDs']) ? $confParams['EditionIDs'] : $this->editions;
             } else {
