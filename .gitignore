@@ -1,4 +1,24 @@
-phpunit.xml
-composer.lock
-.idea
-vendor/
+# Add directories, files, and symbolic links which should not be stored within
+# the repository here.
+
+# Helper files requiring special attention
+!.gitignore
+!.gitattributes
+
+# Project files
+/.cache/
+/.fleet/
+/.idea/
+/.vscode/
+
+# OS specific temporary files
+.DS_Store
+Thumbs.db
+
+# Php/Composer
+/composer.lock
+/vendor/
+
+/.php-cs-fixer.cache
+/.phpunit.result.cache
+/coverage

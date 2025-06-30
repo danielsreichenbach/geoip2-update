@@ -1,6 +1,7 @@
 {
     "name": "danielsreichenbach/geoip2-update",
     "description": "Update GeoIP2/GeoLite2 databases from your script, program or via composer.",
+    "type": "composer-plugin",
     "keywords": [
         "geoip",
         "geoip2",
@@ -8,34 +9,58 @@
         "geolocation",
         "maxmind"
     ],
-    "type": "library",
+    "homepage": "https://github.com/danielsreichenbach/geoip2-update",
     "license": "MIT",
     "authors": [
         {
-            "name": "Andrey Tronov",
-            "email": "newtronov@gmail.com"
-        },
-        {
             "name": "Daniel S. Reichenbach",
-            "email": "daniel@kogito.network"
+            "email": "daniel@kogito.network",
+            "homepage": "https://kogito.network",
+            "role": "Developer"
         }
     ],
     "support": {
-        "email": "newtronov@gmail.com"
+        "issues": "https://github.com/danielsreichenbach/geoip2-update/issues",
+        "source": "https://github.com/danielsreichenbach/geoip2-update"
     },
     "require": {
-        "php": "^7.2.5 || ^8.0",
+        "php": "^8.0",
         "ext-curl": "*",
         "ext-json": "*",
         "composer-plugin-api": "^2"
+    },
+    "require-dev": {
+        "composer/composer": "^2",
+        "friendsofphp/php-cs-fixer": "^3",
+        "phpstan/phpstan": "^1",
+        "phpstan/extension-installer": "^1",
+        "symfony/phpunit-bridge": "^6.0 || ^7.0",
+        "symfony/console": "^6.0 || ^7.0"
     },
     "autoload": {
         "psr-4": {
             "danielsreichenbach\\GeoIP2Update\\": "src/"
         }
     },
-    "require-dev": {
-        "composer/composer": "^2",
-        "symfony/console": "^5.4 || ^6.0 || ^7.0"
+    "autoload-dev": {
+        "psr-4": {
+            "danielsreichenbach\\GeoIP2Update\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    },
+    "extra": {
+        "class": "danielsreichenbach\\GeoIP2Update\\GeoIP2UpdatePlugin"
+    },
+    "scripts": {
+        "cs": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --diff --dry-run --verbose",
+        "fix-cs": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --diff --verbose",
+        "test": "vendor/bin/simple-phpunit"
     }
 }

@@ -1,52 +1,86 @@
 # geoip2-update
 
-[![Geoip2 Update](https://user-images.githubusercontent.com/25905384/111375423-4631ce00-86af-11eb-81a9-2bc4dab89068.png)](https://www.geodbase-update.com/?utm_source=github&utm_medium=organic&utm_campaign=github_project_page&utm_content=main_banner)
+[![Total Downloads](https://poser.pugx.org/danielsreichenbach/geoip2-update/downloads)](https://packagist.org/packages/danielsreichenbach/geoip2-update)
+[![Latest Stable Version](https://poser.pugx.org/danielsreichenbach/geoip2-update/v/stable)](https://packagist.org/packages/danielsreichenbach/geoip2-update)
 
-Geoip2 Update is a PHP tool for updating Maxmind GeoLite2 and GeoIP2 databases
-from your script, application or via Composer.
+geoip2-update is a plugin for Composer. It allows to retrieve any of the
+GeoLite2 databases provided by [MaxMind, Inc.][] for use in your project.
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/danielsreichenbach/geoip2-update)](https://packagist.org/packages/danielsreichenbach/geoip2-update)
-[![GitHub downloads](https://img.shields.io/packagist/dt/danielsreichenbach/geoip2-update)](https://packagist.org/packages/danielsreichenbach/geoip2-update)
+The primary intention is to provide a functional equivalent to the official
+[geoipupdate][] tool for scenarios where an integrated tool may be beneficial.
 
-## INSTALLATION
+An example would be using the Symfony [BazingaGeocoderBundle][geocoder-bundle]
+which supports GeoLite2 as a data source but provides no means to acquire a
+copy of the databases.
 
-```bash
- composer require danielsreichenbach/geoip2-update
+## Installation
+
+```shell
+composer require danielsreichenbach/geoip2-update:^3
 ```
 
-## DOCUMENTATION
+If you are using PHP `< 8.x`, you may want to install version 2.x instead:
 
-You can read the documentation on setting up and using the library, as well as
-learn about new features on the official website.
+```shell
+composer require danielsreichenbach/geoip2-update:^2
+```
 
-**Go to documentation -> [GeoIP2 Update Documentation](https://www.geodbase-update.com/?utm_source=github&utm_medium=organic&utm_campaign=github_project_page&utm_content=documentation_link)**
+Note that version 2.x is not receiving updates any longer and was only meant
+to resolve the issues within the original project.
 
-## FEATURES
+## Upgrading from 2.x to 3.x
 
-### 1. Updating GeoIP2 databases via Composer
+Since version 3.x is a full rewrite of 2.x, there have been changes incompatible
+with version 2.x.
 
-To update Geoip2 databases via Composer, you can set up an update call in your
-`composer.json`.
+To help with the upgrade process, a dedicated [upgrade guide](UPGRADING.md) has
+been prepared.
 
-Each time the `composer update` command is invoked, the library will check for
-updates on the "maxmind.com" server and update the Geoip2 databases if
-necessary.
+## Configuration
 
-You can also update only `GeoIP2` databases without updating all project
-dependencies: `composer update danielsreichenbach/geoip2-update`.
+In order to retrieve database updates, you will need to configure your MaxMind
+account ID and license key in the projects `composer.json` (or in your global
+Composer configuration).
 
-### 2. Updating GeoIP2 databases from your PHP application
+```json
+{
+    "extra": {
+        "geoip2-update": {
+            "maxmind-account-id": "123456",
+            "maxmind-license-key": "7PwKPrsNmfaDK7X0YiMzwvtyKyFznjbUvKssw0GW"
+        }
+    }
+}
+```
 
-You can use this option to update `GeoIP2` databases from your PHP project, or
-use `cron` on Linux, or use `Task Scheduler` on Windows.
+Further [configuration options](doc/configuration.md) are available, and - while
+not mandatory - should be customized per project.
 
-### 3. Simple, cross-platform and reliable
+## License
 
-Does not depend on the operating system and can be used on hosting services and
-production servers.
+This project is made available under the terms of the [MIT license](LICENSE.md).
 
-## COPYRIGHT AND LICENSE
+Copyright for versions prior to 3.x is owned by [Andrey Tronov][], with any
+version from 3.x onwards being owned by [Daniel S. Reichenbach][] since no
+code from 2.x remains in 3.x.
 
-This software is Copyright (c) 2021 by Andrey Tronov.
+## History
 
-This is free software, licensed under the MIT License.
+This packages was original based on [tronovav/geoip2-update][] as the upstream
+package introduced an intermediary proxy to download database updates instead of
+using the official [MaxMind, Inc.][] update API.
+
+Any release tagged with version 2.x is based on the work of [Andrey Tronov][]
+with modifications to use the official MaxMind update API.
+
+From version 3 on forwards, the original code has been removed and the former
+library has been converted into a [Composer plugin][], replacing any original
+code with improved, testable variants.
+
+[MaxMind, Inc.]: https://www.maxmind.com/
+[geoipupdate]: https://github.com/maxmind/geoipupdate
+[geocoder-bundle]: https://github.com/geocoder-php/BazingaGeocoderBundle
+[tronovav/geoip2-update]: https://github.com/tronovav/geoip2-update
+[Andrey Tronov]: https://github.com/tronovav
+[Daniel S. Reichenbach]: https://github.com/danielsreichenbach
+[Composer plugin]: https://getcomposer.org/doc/articles/plugins.md
