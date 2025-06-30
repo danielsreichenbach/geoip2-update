@@ -1,0 +1,11 @@
+{
+    "extra": {
+        "geoip2-update": {
+            "maxmind-account-id": "123456",
+            "maxmind-license-key": "7PwKPrsNmfaDK7X0YiMzwvtyKyFznjbUvKssw0GW"
+        },
+        "my-global-config": {
+            "bar": "foo"
+        }
+    }
+}

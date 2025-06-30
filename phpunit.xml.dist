@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+    colors="true"
+    bootstrap="tests/bootstrap.php"
+    convertDeprecationsToExceptions="false">
+    <php>
+        <!-- Suppress E_STRICT deprecation warnings in PHP 8.4 (caused by Composer internals) -->
+        <ini name="error_reporting" value="E_ALL &amp; ~E_DEPRECATED" />
+    </php>
+
+    <testsuites>
+        <testsuite name="geip2-update Test Suite">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <coverage>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+        <exclude>
+            <directory>vendor</directory>
+            <directory>tests</directory>
+        </exclude>
+        <report>
+            <html outputDirectory="coverage" />
+        </report>
+    </coverage>
+
+</phpunit>
