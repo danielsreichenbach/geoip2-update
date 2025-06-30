@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.1] - 2025-01-30
+
 ### Fixed
 - Updated MaxMind API base URL from `https://updates.maxmind.com` to `https://download.maxmind.com` to resolve "remote server is not available" errors ([#3](https://github.com/danielsreichenbach/geoip2-update/issues/3))
 
@@ -41,7 +43,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 For releases prior to v2.4.0, please see the [releases page](https://github.com/danielsreichenbach/geoip2-update/releases).
 
-[Unreleased]: https://github.com/danielsreichenbach/geoip2-update/compare/v2.5.0...HEAD
+[Unreleased]: https://github.com/danielsreichenbach/geoip2-update/compare/v2.5.1...HEAD
+[2.5.1]: https://github.com/danielsreichenbach/geoip2-update/compare/v2.5.0...v2.5.1
 [2.5.0]: https://github.com/danielsreichenbach/geoip2-update/compare/v2.4.2...v2.5.0
 [2.4.2]: https://github.com/danielsreichenbach/geoip2-update/compare/v2.4.1...v2.4.2
 [2.4.1]: https://github.com/danielsreichenbach/geoip2-update/compare/v2.4.0...v2.4.1
