@@ -3,9 +3,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
     colors="true"
-    bootstrap="vendor/autoload.php">
+    bootstrap="tests/bootstrap.php"
+    convertDeprecationsToExceptions="false">
     <php>
-        <ini name="error_reporting" value="-1" />
+        <!-- Suppress E_STRICT deprecation warnings in PHP 8.4 (caused by Composer internals) -->
+        <ini name="error_reporting" value="E_ALL &amp; ~E_DEPRECATED" />
     </php>
 
     <testsuites>
