@@ -14,7 +14,9 @@ namespace danielsreichenbach\GeoIP2Update\Tests\Config;
 use Composer\Composer;
 use Composer\Config;
 use Composer\Package\RootPackage;
+use danielsreichenbach\GeoIP2Update\Config\ConfigBuilder;
 use danielsreichenbach\GeoIP2Update\Config\ConfigLocator;
+use danielsreichenbach\GeoIP2Update\GeoIP2UpdatePlugin;
 use PHPUnit\Framework\TestCase;
 
 class ConfigLocatorTest extends TestCase
@@ -34,6 +36,9 @@ class ConfigLocatorTest extends TestCase
     /** @var ConfigLocator */
     private $SUT;
 
+    /** @var ConfigBuilder */
+    private $configBuilder;
+
     /**
      * {@inheritdoc}
      */
@@ -51,8 +56,11 @@ class ConfigLocatorTest extends TestCase
 
         $package = new RootPackage('my/project', '1.0.0', '1.0.0');
         $package->setExtra([
-            'my-local-config' => [
-                'foo' => 'bar',
+            GeoIP2UpdatePlugin::EXTRA_KEY => [
+                'maxmind-account-id' => '123456',
+                'maxmind-license-key' => 'test-key',
+                'maxmind-database-editions' => ['GeoLite2-Country'],
+                'maxmind-database-folder' => 'var/maxmind',
             ],
         ]);
 
@@ -60,36 +68,53 @@ class ConfigLocatorTest extends TestCase
         $this->composer->setConfig($this->config);
         $this->composer->setPackage($package);
 
-        $this->SUT = new ConfigLocator($this->composer);
+        $this->configBuilder = new ConfigBuilder();
+        $this->SUT = new ConfigLocator($this->configBuilder);
     }
 
     public function testItLocatesLocalConfig()
     {
-        $key = 'my-local-config';
+        $config = $this->SUT->locate($this->composer);
 
-        $this->assertTrue($this->SUT->locate($key));
-
-        $this->assertSame($this->localConfigPath, $this->SUT->getPath($key));
-        $this->assertSame(['foo' => 'bar'], $this->SUT->getConfig($key));
+        $this->assertNotNull($config);
+        $this->assertEquals('123456', $config->getAccountId());
+        $this->assertEquals('test-key', $config->getLicenseKey());
+        $this->assertEquals(['GeoLite2-Country'], $config->getEditions());
+        $this->assertEquals('var/maxmind', $config->getDatabaseFolder());
     }
 
     public function testItLocatesGlobalConfig()
     {
-        $key = 'my-global-config';
+        // Remove local config
+        $package = new RootPackage('my/project', '1.0.0', '1.0.0');
+        $package->setExtra([]);
+        $this->composer->setPackage($package);
 
-        $this->assertTrue($this->SUT->locate($key));
+        $config = $this->SUT->locate($this->composer);
 
-        $this->assertSame($this->globalConfigPath, $this->SUT->getPath($key));
-        $this->assertSame(['bar' => 'foo'], $this->SUT->getConfig($key));
+        $this->assertNotNull($config);
+        $this->assertEquals('123456', $config->getAccountId());
+        $this->assertEquals('7PwKPrsNmfaDK7X0YiMzwvtyKyFznjbUvKssw0GW', $config->getLicenseKey());
+        // Default editions when not specified
+        $this->assertEquals(['GeoLite2-Country'], $config->getEditions());
     }
 
     public function testItDoesNotLocateNonExistingConfig()
     {
-        $key = 'my-non-existing-config';
+        // Remove all configs
+        $package = new RootPackage('my/project', '1.0.0', '1.0.0');
+        $package->setExtra([]);
+        $this->composer->setPackage($package);
 
-        $this->assertFalse($this->SUT->locate($key));
+        // Set home to non-existing path
+        $this->config->merge([
+            'config' => [
+                'home' => '/tmp/non-existing-path',
+            ],
+        ]);
 
-        $this->assertNull($this->SUT->getPath($key));
-        $this->assertSame([], $this->SUT->getConfig($key));
+        $config = $this->SUT->locate($this->composer);
+
+        $this->assertNull($config);
     }
 }

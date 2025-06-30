@@ -1,0 +1,32 @@
+{
+    "name": "my-company/my-project",
+    "type": "project",
+    "description": "Example project using geoip2-update with custom event listeners",
+    "require": {
+        "php": ">=8.0",
+        "danielsreichenbach/geoip2-update": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "MyProject\\": "src/"
+        }
+    },
+    "extra": {
+        "geoip2-update": {
+            "maxmind-account-id": "YOUR_ACCOUNT_ID",
+            "maxmind-license-key": "YOUR_LICENSE_KEY",
+            "maxmind-database-editions": [
+                "GeoLite2-ASN",
+                "GeoLite2-City",
+                "GeoLite2-Country"
+            ],
+            "maxmind-database-folder": "var/geoip2"
+        }
+    },
+    "scripts": {
+        "geoip2.pre_update": "MyProject\\CustomEventListener::onPreUpdate",
+        "geoip2.database_update": "MyProject\\CustomEventListener::onDatabaseUpdate",
+        "geoip2.post_update": "MyProject\\CustomEventListener::onPostUpdate",
+        "geoip2.update_error": "MyProject\\CustomEventListener::onUpdateError"
+    }
+}

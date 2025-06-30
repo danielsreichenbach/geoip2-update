@@ -15,9 +15,9 @@ use danielsreichenbach\GeoIP2Update\Model\Config;
 
 class ConfigBuilder
 {
-    private const GEOLITE_DB_ASN = "GeoLite2-ASN";
-    private const GEOLITE_DB_COUNTRY = "GeoLite2-Country";
-    private const GEOLITE_DB_CITY = "GeoLite2-City";
+    private const GEOLITE_DB_ASN = 'GeoLite2-ASN';
+    private const GEOLITE_DB_COUNTRY = 'GeoLite2-Country';
+    private const GEOLITE_DB_CITY = 'GeoLite2-City';
 
     private const VALID_GEOLITE_DB_VALUES = [
         self::GEOLITE_DB_ASN,
@@ -35,10 +35,10 @@ class ConfigBuilder
     {
         $this->reset();
 
-        $maxmindAccountId = "";
-        $maxmindLicenseKey = "";
+        $maxmindAccountId = '';
+        $maxmindLicenseKey = '';
         $maxmindDatabaseEditions = [];
-        $maxmindDatabaseFolder = "var/maxmind";
+        $maxmindDatabaseFolder = 'var/maxmind';
 
         if (array_key_exists('maxmind-account-id', $extra)) {
             if (0 === strlen(trim($extra['maxmind-account-id']))) {

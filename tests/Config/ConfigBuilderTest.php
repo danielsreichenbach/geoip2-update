@@ -41,6 +41,7 @@ class ConfigBuilderTest extends TestCase
 
         $this->assertCount(2, $this->SUT->getWarnings());
     }
+
     public function testItSelectsCountryDatabaseAsDefault()
     {
         $extra = [];
@@ -66,6 +67,7 @@ class ConfigBuilderTest extends TestCase
 
         $this->assertCount(4, $this->SUT->getWarnings());
     }
+
     public function testItWarnsWhenDatabaseEditionsIsNotAnArray()
     {
         $extra = [

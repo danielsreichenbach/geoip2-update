@@ -44,4 +44,34 @@ class Config
     {
         return $this->maxmindDatabaseFolder;
     }
+
+    public function getAccountId(): string
+    {
+        return $this->maxmindAccountId;
+    }
+
+    public function getLicenseKey(): string
+    {
+        return $this->maxmindLicenseKey;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getEditions(): array
+    {
+        return $this->maxmindDatabaseEditions;
+    }
+
+    public function getDatabaseFolder(): string
+    {
+        return $this->maxmindDatabaseFolder;
+    }
+
+    public function isValid(): bool
+    {
+        return !empty($this->maxmindAccountId)
+            && !empty($this->maxmindLicenseKey)
+            && !empty($this->maxmindDatabaseEditions);
+    }
 }
