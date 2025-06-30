@@ -47,7 +47,7 @@ class Client
     public $dir;
 
     protected $_editionVersions = array();
-    protected $_baseUrlApi = 'https://updates.maxmind.com';
+    protected $_baseUrlApi = 'https://download.maxmind.com';
     protected $_updated = array();
     protected $_errors = array();
     protected $_errorUpdateEditions = array();
